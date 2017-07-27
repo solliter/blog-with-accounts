@@ -1,0 +1,18 @@
+ {% extends 'base.html' %}
+    {% block content %}
+
+        <div class="blog">
+            {% if blog.blog_published_date %}
+                <div class="date">
+                    {{ blog.blog_published_date }}
+                </div>
+            {% endif %}
+             {% if request.user == blog.blog_author %}
+            <a class="btn btn-default" href="{% url 'blog_edit' pk=blog.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            {% endif %}
+            <h1>{{ blog.blog_title }}</h1>
+            <p>{{ blog.blog_text|linebreaksbr }}</p>
+
+        </div>
+    {% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+          <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+
+                {% for blog in blogs %}
+                    <div class="blog">
+                        <div class="date">
+                            {{ blog.blog_published_date }}
+                        </div>
+                        <h1><a href="{% url 'blog_detail' pk=blog.pk %}">{{ blog.blog_title }}</a></h1>
+                        <p>{{ blog.blog_text|linebreaksbr }}</p>
+                            <label>Автор <p>{{blog.blog_author}}</p></label>
+{% if request.user != blog.blog_author %}{% block jquery %}
+
+                        <script type="text/javascript">  $(document).ready(function(){
+                            $('.bottom').click(function(){ $(this).val="Отписаться"; });     });
+                        </script>
+                         <form action="/subscribe/" method="POST" id="subscribe">
+                           {% csrf_token %}
+                           <input type="hidden" name="subscribe" value="{{blog.blog_author}}">
+                             <input class="bottom" type="submit" value="Подписаться">
+
+                       </form>
+{% endblock %}{% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
